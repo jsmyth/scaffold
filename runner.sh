@@ -88,10 +88,10 @@ scaffold_flask() {
 
     DOCKER_SCRATCH_DIR="-v $scratch_dir:$scratch_dir --env scratch_dir=$scratch_dir"
 
-    DOCKER_CMD="$DOCKER_RUN_IT --rm -v ${PWD}:/build -w /build $DOCKER_SCRATCH_DIR"
+    DOCKER_CMD="$DOCKER_RUN_IT --rm ${DOCKER_SOCK} -v ${PWD}:/build -w /build $DOCKER_SCRATCH_DIR"
     $DOCKER_CMD $DOCKER_IMAGE python3 generate_cookiecutter_json.py
 
-    DOCKER_CMD="$DOCKER_RUN_IT --rm -v ${PWD}:/build -w /build -v ${HOME}/.gitconfig:/home/sid/.gitconfig -v ${HOME}/.ssh:/home/sid/.ssh -v ${HOME}/.netrc:/home/sid/.netrc $DOCKER_SCRATCH_DIR"
+    DOCKER_CMD="$DOCKER_RUN_IT --rm ${DOCKER_SOCK} -v ${PWD}:/build -w /build -v ${HOME}/.gitconfig:/home/sid/.gitconfig -v ${HOME}/.ssh:/home/sid/.ssh -v ${HOME}/.netrc:/home/sid/.netrc $DOCKER_SCRATCH_DIR"
     $DOCKER_CMD $DOCKER_IMAGE cookiecutter gh:jsmyth/cookiecutter-flask \
                                            --config-file "${scratch_dir}/cookiecutter.yaml" \
                                            --output-dir "${scratch_dir}" \
